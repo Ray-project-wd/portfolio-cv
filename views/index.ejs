@@ -1,0 +1,242 @@
+<%- include('partials/head', { title: title, desc: profile.summary ? profile.summary.slice(0, 150) : undefined }) %>
+<body>
+<%- include('partials/navbar') %>
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-lines" aria-hidden="true"></div>
+    <div class="hero-word" aria-hidden="true">PORTFOLIO</div>
+
+    <div class="hero-photo">
+      <% if (profile.photo) { %>
+        <img src="<%= profile.photo %>" alt="Foto profil <%= profile.fullName %>">
+      <% } else { %>
+        <div class="photo-placeholder" aria-hidden="true"><%= initials(profile.fullName) %></div>
+      <% } %>
+      <span class="photo-label"><%= firstName(profile.fullName) %></span>
+    </div>
+
+    <div class="hero-left">
+      <p class="hello" data-i18n="hero.hello">Hai, saya</p>
+      <h1 class="hero-name"><%= profile.fullName %></h1>
+      <% if (profile.educationStatus || profile.university) { %>
+      <p class="status-pill"><i></i><%= [profile.educationStatus, profile.university].filter(Boolean).join(', ') %></p>
+      <% } %>
+      <% if (profile.summary) { %>
+      <p class="hero-summary" data-en="<%= profile.summaryEn || '' %>"><%= profile.summary %></p>
+      <% } else { %>
+      <p class="hero-summary empty" data-i18n="empty.profile">Lengkapi profil Anda di dashboard admin.</p>
+      <% } %>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="/cv" data-i18n="hero.cv">Lihat CV</a>
+        <a class="btn btn-ghost" href="/cv/download" data-i18n="hero.download">Unduh PDF</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <% if (profile.gpa) { %>
+      <div class="gpa-badge"><span>IPK <%= Number(profile.gpa).toFixed(2) %> / 4.00</span><% if (profile.graduationYear) { %><small>Lulus <%= profile.graduationYear %></small><% } %></div>
+      <% } %>
+      <% if (profile.expertise) { %>
+      <div class="expertise-card"><strong><%= profile.expertise %></strong><% if (profile.expertiseNote) { %><span><%= profile.expertiseNote %></span><% } %></div>
+      <% } %>
+    </div>
+
+    <a class="scroll-hint" href="#about" data-i18n="hero.scroll">Gulir ke bawah</a>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="mega" data-en="<%= profile.headlineEn || '' %>"><%= profile.headline || 'Building Digital Experiences.' %></h2>
+      <div class="about-grid">
+        <div class="about-main reveal">
+          <div class="id-row">
+            <div class="avatar">
+              <% if (profile.photo) { %><img src="<%= profile.photo %>" alt=""><% } else { %><span><%= initials(profile.fullName) %></span><% } %>
+            </div>
+            <div>
+              <p class="id-name"><%= profile.fullName %></p>
+              <dl class="id-meta">
+                <% if (profile.educationStatus) { %><div><dt data-i18n="about.status">Status</dt><dd><%= profile.educationStatus %></dd></div><% } %>
+                <% if (profile.gpa) { %><div><dt>IPK</dt><dd><%= Number(profile.gpa).toFixed(2) %> / 4.00</dd></div><% } %>
+                <% if (profile.graduationYear) { %><div><dt data-i18n="about.grad">Lulus</dt><dd><%= profile.graduationYear %></dd></div><% } %>
+              </dl>
+            </div>
+          </div>
+          <% if (profile.summary) { %><p class="lead" data-en="<%= profile.summaryEn || '' %>"><%= profile.summary %></p><% } %>
+          <% if (skillGroups.length) { %>
+          <p class="mini-title" data-i18n="about.core">Kompetensi utama</p>
+          <ul class="core-list">
+            <% skillGroups.slice(0, 1).forEach(function (g) { g.items.slice(0, 3).forEach(function (s) { %>
+            <li><span class="core-ico"><%= s.icon || '•' %></span><div><strong><%= s.name %></strong><% if (s.description) { %><span><%= s.description %></span><% } %></div></li>
+            <% }) }) %>
+          </ul>
+          <% } %>
+        </div>
+
+        <% if (profile.featuredSkillTitle) { %>
+        <aside class="dark-card reveal" aria-label="Keahlian utama">
+          <p class="dc-label" data-i18n="about.featured">Keahlian utama</p>
+          <h3><%= profile.featuredSkillTitle %></h3>
+          <% if (profile.featuredSkillTag) { %><p class="dc-tag"><%= profile.featuredSkillTag %></p><% } %>
+          <% if (profile.featuredSkillDesc) { %><p class="dc-desc"><%= profile.featuredSkillDesc %></p><% } %>
+        </aside>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE + STATS -->
+  <section class="section section-tight stats-section">
+    <div class="container">
+      <% if (profile.quote) { %><blockquote class="quote reveal">“<%= profile.quote %>”</blockquote><% } %>
+      <div class="stats">
+        <div class="stat"><strong data-count="<%= stats.projects %>"><%= stats.projects %></strong><span>Total Projects</span></div>
+        <div class="stat"><strong data-count="<%= stats.certificates %>"><%= stats.certificates %></strong><span>Certificates</span></div>
+        <div class="stat"><strong data-count="<%= stats.years %>"><%= stats.years %></strong><span>Years of Learning</span></div>
+        <div class="stat"><strong data-count="<%= stats.technologies %>"><%= stats.technologies %></strong><span>Technologies</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section split-section" id="education">
+    <div class="container split">
+      <div class="split-head"><p class="eyebrow">Education</p><h2 data-i18n="edu.title">Pendidikan</h2></div>
+      <div class="split-body"><%- include('partials/timeline', { entries: timelines.education }) %></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section split-section" id="experience">
+    <div class="container split">
+      <div class="split-head"><p class="eyebrow">Experience</p><h2 data-i18n="exp.title">Pengalaman</h2></div>
+      <div class="split-body"><%- include('partials/timeline', { entries: timelines.experience }) %></div>
+    </div>
+  </section>
+
+  <!-- ORGANIZATION -->
+  <section class="section split-section" id="organization">
+    <div class="container split">
+      <div class="split-head"><p class="eyebrow">Organization</p><h2 data-i18n="org.title">Organisasi</h2></div>
+      <div class="split-body"><%- include('partials/timeline', { entries: timelines.organizations }) %></div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section class="section certs" id="certificates">
+    <div class="certs-bg" aria-hidden="true">CERTIFICATES</div>
+    <div class="container certs-head">
+      <h2 data-i18n="cert.title">Sertifikat & Pencapaian</h2>
+      <p class="certs-sub" data-i18n="cert.sub">Klik sertifikat di tengah untuk memperbesar.</p>
+    </div>
+    <% if (!certificates.length) { %>
+      <p class="empty container" data-i18n="empty.data">Belum ada data.</p>
+    <% } else { %>
+    <div class="carousel" id="certCarousel" tabindex="0" aria-roledescription="carousel" aria-label="Sertifikat">
+      <div class="carousel-stage">
+        <% certificates.forEach(function (c, i) { %>
+        <figure class="cert-item" data-title="<%= c.title %>" data-issuer="<%= c.issuer %>" data-date="<%= c.issueDate || '' %>" data-src="<%= c.image %>" data-url="<%= c.credentialUrl || '' %>">
+          <img src="<%= c.image %>" alt="Sertifikat <%= c.title %>" loading="lazy" draggable="false">
+        </figure>
+        <% }) %>
+      </div>
+      <div class="carousel-caption" aria-live="polite">
+        <h3 id="certTitle"></h3>
+        <p id="certIssuer"></p>
+      </div>
+      <div class="carousel-controls">
+        <button type="button" class="ctrl" id="certPrev" aria-label="Sertifikat sebelumnya">←</button>
+        <span class="ctrl-count" id="certCount"></span>
+        <button type="button" class="ctrl" id="certNext" aria-label="Sertifikat berikutnya">→</button>
+      </div>
+    </div>
+    <% } %>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">Skills</p><h2 data-i18n="skills.title">Keahlian</h2></div>
+      <% if (!skillGroups.length) { %>
+        <p class="empty" data-i18n="empty.data">Belum ada data.</p>
+      <% } %>
+      <% skillGroups.forEach(function (g) { %>
+      <div class="skill-group reveal">
+        <h3><%= g.category %></h3>
+        <ul class="skill-grid">
+          <% g.items.forEach(function (s) { %>
+          <li class="skill-card">
+            <span class="skill-ico" aria-hidden="true"><%= s.icon || s.name.slice(0, 1).toUpperCase() %></span>
+            <div><strong><%= s.name %></strong><% if (s.description) { %><span><%= s.description %></span><% } %></div>
+          </li>
+          <% }) %>
+        </ul>
+      </div>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section section-alt" id="projects">
+    <div class="container">
+      <div class="section-head"><p class="eyebrow">Projects</p><h2 data-i18n="proj.title">Proyek</h2></div>
+      <% if (!projects.length) { %>
+        <p class="empty" data-i18n="empty.data">Belum ada data.</p>
+      <% } else { %>
+      <div class="project-grid">
+        <% projects.forEach(function (p) { %>
+        <article class="project reveal">
+          <a class="project-thumb" href="/projects/<%= p.id %>" aria-label="Detail <%= p.title %>">
+            <% if (p.thumbnail) { %><img src="<%= p.thumbnail %>" alt="Thumbnail <%= p.title %>" loading="lazy"><% } else { %><span class="thumb-ph"><%= initials(p.title) %></span><% } %>
+          </a>
+          <div class="project-body">
+            <div class="project-meta"><h3><a href="/projects/<%= p.id %>"><%= p.title %></a></h3><% if (p.year) { %><span class="project-year"><%= p.year %></span><% } %></div>
+            <p><%= p.description %></p>
+            <% if (p.technologies) { %><ul class="tags"><% splitTags(p.technologies).forEach(function (t) { %><li><%= t %></li><% }) %></ul><% } %>
+            <div class="project-links">
+              <% if (p.githubUrl) { %><a href="<%= p.githubUrl %>" target="_blank" rel="noopener noreferrer">GitHub</a><% } %>
+              <% if (p.demoUrl) { %><a href="<%= p.demoUrl %>" target="_blank" rel="noopener noreferrer">Live Demo</a><% } %>
+              <a href="/projects/<%= p.id %>" data-i18n="proj.detail">Detail</a>
+            </div>
+          </div>
+        </article>
+        <% }) %>
+      </div>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-card reveal">
+        <h2 data-i18n="contact.title">Mari berdiskusi.</h2>
+        <p data-i18n="contact.sub">Terbuka untuk magang, kolaborasi proyek, dan peluang karier.</p>
+        <div class="contact-actions">
+          <% if (profile.email) { %><a class="btn btn-light" href="mailto:<%= profile.email %>"><%= profile.email %></a><% } %>
+          <% if (profile.phone) { %><span class="contact-line"><%= profile.phone %></span><% } %>
+          <% if (profile.location) { %><span class="contact-line"><%= profile.location %></span><% } %>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Modal sertifikat -->
+<div class="modal" id="certModal" hidden role="dialog" aria-modal="true" aria-label="Pratinjau sertifikat">
+  <button type="button" class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
+  <button type="button" class="ctrl modal-prev" id="modalPrev" aria-label="Sebelumnya">←</button>
+  <figure class="modal-fig">
+    <img id="modalImg" src="" alt="">
+    <figcaption><strong id="modalTitle"></strong><span id="modalMeta"></span><a id="modalLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Lihat kredensial</a></figcaption>
+  </figure>
+  <button type="button" class="ctrl modal-next" id="modalNext" aria-label="Berikutnya">→</button>
+</div>
+
+<%- include('partials/footer') %>
+<script src="/js/carousel.js"></script>
+</body>
+</html>

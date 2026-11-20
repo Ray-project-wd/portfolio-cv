@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+<div class="page-head">
+  <h1><%= cfg.plural %></h1>
+  <a class="btn primary" href="/admin/<%= key %>/new">Tambah <%= cfg.label.toLowerCase() %></a>
+</div>
+<% if (!rows.length) { %>
+  <div class="empty-state">Belum ada data <%= cfg.label.toLowerCase() %>. Klik “Tambah <%= cfg.label.toLowerCase() %>” untuk memulai.</div>
+<% } else { %>
+<div class="table-wrap">
+<table>
+  <thead><tr>
+    <% if (cfg.fileField) { %><th>Gambar</th><% } %>
+    <% cfg.columns.forEach(function (c) { var f = cfg.fields.find(function (x) { return x.name === c; }); %><th><%= f ? f.label : c %></th><% }) %>
+    <th>Urutan</th><th class="right">Aksi</th>
+  </tr></thead>
+  <tbody>
+  <% rows.forEach(function (r) { %>
+    <tr>
+      <% if (cfg.fileField) { %><td><% if (r[cfg.fileField]) { %><img class="thumb" src="<%= r[cfg.fileField] %>" alt=""><% } %></td><% } %>
+      <% cfg.columns.forEach(function (c) { %><td><%= r[c] == null ? '—' : r[c] %></td><% }) %>
+      <td><%= r.sortOrder %></td>
+      <td class="right actions">
+        <a class="btn sm" href="/admin/<%= key %>/<%= r.id %>/edit">Edit</a>
+        <form method="post" action="/admin/<%= key %>/<%= r.id %>/delete" data-confirm="Hapus <%= cfg.label.toLowerCase() %> ini? Tindakan tidak bisa dibatalkan.">
+          <button class="btn sm danger" type="submit">Hapus</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<% } %>
+<%- include('partials/footer') %>

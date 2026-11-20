@@ -1,0 +1,19 @@
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <p class="footer-name"><%= profile.fullName %></p>
+      <p class="footer-desc" data-i18n="footer.desc">Mahasiswa Teknik Informatika yang membangun produk digital yang rapi dan berguna.</p>
+    </div>
+    <ul class="footer-links">
+      <% if (profile.github) { %><li><a href="<%= profile.github %>" target="_blank" rel="noopener noreferrer">GitHub</a></li><% } %>
+      <% if (profile.linkedin) { %><li><a href="<%= profile.linkedin %>" target="_blank" rel="noopener noreferrer">LinkedIn</a></li><% } %>
+      <% if (profile.email) { %><li><a href="mailto:<%= profile.email %>">Email</a></li><% } %>
+      <li><a href="/cv">CV</a></li>
+    </ul>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <%= new Date().getFullYear() %> <%= profile.fullName %></span>
+    <a href="/admin">Admin</a>
+  </div>
+</footer>
+<script src="/js/main.js"></script>

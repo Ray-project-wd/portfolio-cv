@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+<div class="page-head"><h1><%= title %></h1><a class="btn" href="<%= backUrl %>">Kembali</a></div>
+<% if (errors.length) { %>
+<div class="flash flash-error" role="alert"><strong>Periksa kembali isian Anda:</strong><ul><% errors.forEach(function (e) { %><li><%= e %></li><% }) %></ul></div>
+<% } %>
+<% var hasFile = fields.some(function (f) { return f.type === 'file'; }); %>
+<form class="form" method="post" action="<%= action %>"<% if (hasFile) { %> enctype="multipart/form-data"<% } %>>
+  <% fields.forEach(function (f) { var v = item[f.name]; %>
+  <div class="field">
+    <label for="f-<%= f.name %>"><%= f.label %><% if (f.required) { %> <span class="req">*</span><% } %></label>
+    <% if (f.type === 'textarea') { %>
+      <textarea id="f-<%= f.name %>" name="<%= f.name %>" rows="5"<% if (f.required) { %> required<% } %>><%= v == null ? '' : v %></textarea>
+    <% } else if (f.type === 'select') { %>
+      <select id="f-<%= f.name %>" name="<%= f.name %>"<% if (f.required) { %> required<% } %>>
+        <option value="">Pilih…</option>
+        <% f.options.forEach(function (o) { %><option value="<%= o %>"<%= v === o ? ' selected' : '' %>><%= o %></option><% }) %>
+      </select>
+    <% } else if (f.type === 'file') { %>
+      <% if (v) { %><img class="preview" src="<%= v %>" alt="Gambar saat ini"><% } %>
+      <input id="f-<%= f.name %>" type="file" name="<%= f.name %>" accept="image/png,image/jpeg,image/webp"<% if (f.required && !v) { %> required<% } %> data-preview>
+      <img class="preview preview-new" alt="" hidden>
+      <small>JPG, PNG, atau WEBP, maksimal 5 MB.<% if (v) { %> Kosongkan jika tidak ingin mengganti.<% } %></small>
+    <% } else { %>
+      <input id="f-<%= f.name %>" type="<%= f.type === 'number' ? 'number' : 'text' %>" name="<%= f.name %>" value="<%= v == null ? '' : v %>"<% if (f.type === 'number') { %> min="0" step="1"<% } %><% if (f.max) { %> maxlength="<%= f.max %>"<% } %><% if (f.required) { %> required<% } %><% if (f.type === 'url') { %> inputmode="url" placeholder="https://"<% } %>>
+    <% } %>
+    <% if (f.help && f.type !== 'file') { %><small><%= f.help %></small><% } else if (f.help && f.type === 'file') { %><small><%= f.help %></small><% } %>
+  </div>
+  <% }) %>
+  <div class="form-actions"><button class="btn primary" type="submit">Simpan</button><a class="btn" href="<%= backUrl %>">Batal</a></div>
+</form>
+<%- include('partials/footer') %>

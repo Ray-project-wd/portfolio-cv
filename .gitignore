@@ -1,0 +1,6 @@
+node_modules/
+.env
+public/uploads/photos/*
+public/uploads/projects/*
+public/uploads/certificates/*
+!public/uploads/**/.gitkeep

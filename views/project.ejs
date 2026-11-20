@@ -1,0 +1,25 @@
+<%- include('partials/head', { title: title, desc: project.description.slice(0, 150) }) %>
+<body>
+<%- include('partials/navbar') %>
+<main class="container project-page">
+  <a class="back-link" href="/#projects">← Semua proyek</a>
+  <p class="eyebrow"><%= project.year || '' %></p>
+  <h1 class="mega mega-sm"><%= project.title %></h1>
+  <% if (project.thumbnail) { %><img class="project-hero" src="<%= project.thumbnail %>" alt="Thumbnail <%= project.title %>"><% } %>
+  <div class="project-detail">
+    <div>
+      <p class="lead"><%= project.description %></p>
+      <% if (project.details) { %><div class="prewrap"><%= project.details %></div><% } %>
+    </div>
+    <aside>
+      <% if (project.technologies) { %><p class="mini-title">Teknologi</p><ul class="tags"><% splitTags(project.technologies).forEach(function (t) { %><li><%= t %></li><% }) %></ul><% } %>
+      <div class="project-links vertical">
+        <% if (project.githubUrl) { %><a class="btn btn-solid" href="<%= project.githubUrl %>" target="_blank" rel="noopener noreferrer">Lihat di GitHub</a><% } %>
+        <% if (project.demoUrl) { %><a class="btn btn-ghost" href="<%= project.demoUrl %>" target="_blank" rel="noopener noreferrer">Buka live demo</a><% } %>
+      </div>
+    </aside>
+  </div>
+</main>
+<%- include('partials/footer') %>
+</body>
+</html>

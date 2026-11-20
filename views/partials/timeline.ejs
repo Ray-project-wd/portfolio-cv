@@ -1,0 +1,17 @@
+<% if (!entries.length) { %>
+  <p class="empty" data-i18n="empty.data">Belum ada data.</p>
+<% } else { %>
+<ol class="timeline">
+  <% entries.forEach(function (e) { %>
+  <li class="tl-item reveal">
+    <div class="tl-period"><%= e.period %></div>
+    <div class="tl-body">
+      <h3><%= e.title %></h3>
+      <p class="tl-org"><%= e.org %><% if (e.meta) { %> <span class="tl-meta"><%= e.meta %></span><% } %></p>
+      <% if (e.lines.length) { %><ul class="tl-list"><% e.lines.forEach(function (l) { %><li><%= l %></li><% }) %></ul><% } %>
+      <% if (e.extra.length) { %><ul class="tl-list tl-result"><% e.extra.forEach(function (l) { %><li><%= l %></li><% }) %></ul><% } %>
+    </div>
+  </li>
+  <% }) %>
+</ol>
+<% } %>

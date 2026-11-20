@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/cv.css">
+</head>
+<body>
+  <div class="cv-toolbar no-print">
+    <a href="/">← Kembali ke portofolio</a>
+    <span>
+      <button type="button" onclick="window.print()">Cetak</button>
+      <a class="primary" href="/cv/download">Download PDF</a>
+    </span>
+  </div>
+  <main class="cv-sheet">
+    <header>
+      <h1><%= profile.fullName %></h1>
+      <p><%= contact %></p>
+    </header>
+
+    <% if (profile.summary) { %><section><h2>Summary</h2><p class="just"><%= profile.summary %></p></section><% } %>
+
+    <% if (education.length) { %><section><h2>Education</h2>
+      <% education.forEach(function (e) { %>
+      <div class="entry"><div class="row"><strong><%= e.institution %></strong><span><%= period(e.startYear, e.endYear) %></span></div>
+        <div class="row"><em><%= e.program %></em><em><%= e.gpa ? 'GPA: ' + e.gpa : '' %></em></div>
+        <ul><% splitLines(e.achievements).forEach(function (l) { %><li><%= l %></li><% }) %></ul></div>
+      <% }) %></section><% } %>
+
+    <% if (experience.length) { %><section><h2>Experience</h2>
+      <% experience.forEach(function (e) { %>
+      <div class="entry"><div class="row"><strong><%= e.company %></strong><span><%= period(e.startDate, e.endDate) %></span></div>
+        <div class="row"><em><%= e.position %></em></div>
+        <ul><% splitLines(e.description).concat(splitLines(e.achievements)).forEach(function (l) { %><li><%= l %></li><% }) %></ul></div>
+      <% }) %></section><% } %>
+
+    <% if (organizations.length) { %><section><h2>Leadership &amp; Organizations</h2>
+      <% organizations.forEach(function (o) { %>
+      <div class="entry"><div class="row"><strong><%= o.name %></strong><span><%= period(o.startDate, o.endDate) %></span></div>
+        <div class="row"><em><%= o.position %></em></div>
+        <ul><% splitLines(o.description).concat(splitLines(o.achievements)).forEach(function (l) { %><li><%= l %></li><% }) %></ul></div>
+      <% }) %></section><% } %>
+
+    <% if (projects.length) { %><section><h2>Projects</h2>
+      <% projects.forEach(function (p) { %>
+      <div class="entry"><div class="row"><strong><%= p.title %></strong><span><%= p.year || '' %></span></div>
+        <% if (p.technologies) { %><div class="row"><em><%= p.technologies %></em></div><% } %>
+        <ul><% splitLines(p.description).forEach(function (l) { %><li><%= l %></li><% }) %></ul></div>
+      <% }) %></section><% } %>
+
+    <% if (certificates.length) { %><section><h2>Certifications</h2>
+      <% certificates.forEach(function (c) { %>
+      <div class="entry"><div class="row"><strong><%= c.title %></strong><span><%= c.issueDate || '' %></span></div>
+        <div class="row"><em><%= c.issuer %></em></div></div>
+      <% }) %></section><% } %>
+
+    <% if (skillGroups.length) { %><section><h2>Skills</h2>
+      <% skillGroups.forEach(function (g) { %><p class="skill-line"><strong><%= g.category %>:</strong> <%= g.items.join(', ') %></p><% }) %></section><% } %>
+  </main>
+</body>
+</html>

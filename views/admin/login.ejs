@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Login Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="login-body">
+  <form class="login-card" method="post" action="/admin/login">
+    <h1>Masuk ke dashboard</h1>
+    <% if (flash) { %><div class="flash flash-<%= flash.type %>" role="alert"><%= flash.msg %></div><% } %>
+    <label>Username<input name="username" autocomplete="username" required autofocus></label>
+    <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="btn primary" type="submit">Masuk</button>
+    <a class="muted" href="/">← Kembali ke website</a>
+  </form>
+</body>
+</html>

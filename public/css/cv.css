@@ -1,0 +1,26 @@
+/* CV Harvard — sengaja berbeda dari desain website: putih, serif formal, satu kolom */
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9ecea; font-family: 'Times New Roman', Times, serif; color: #000; }
+.cv-toolbar { max-width: 794px; margin: 18px auto 0; display: flex; justify-content: space-between; align-items: center; font: 600 14px system-ui, sans-serif; padding: 0 4px; }
+.cv-toolbar a { color: #075B46; text-decoration: none; }
+.cv-toolbar button, .cv-toolbar .primary { margin-left: 8px; padding: 9px 16px; border-radius: 6px; border: 1px solid #075B46; background: #fff; color: #075B46; font: 600 14px system-ui, sans-serif; cursor: pointer; }
+.cv-toolbar .primary { background: #075B46; color: #fff; }
+.cv-sheet { width: 794px; max-width: 100%; min-height: 1123px; margin: 14px auto 40px; background: #fff; padding: 48px 54px; font-size: 14px; line-height: 1.4; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+.cv-sheet header { text-align: center; margin-bottom: 6px; }
+.cv-sheet h1 { margin: 0; font-size: 26px; letter-spacing: .04em; text-transform: uppercase; }
+.cv-sheet header p { margin: 4px 0 0; font-size: 13px; }
+.cv-sheet h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid #000; margin: 16px 0 8px; padding-bottom: 2px; }
+.cv-sheet .row { display: flex; justify-content: space-between; gap: 16px; }
+.cv-sheet .entry { margin-bottom: 8px; }
+.cv-sheet ul { margin: 3px 0 0 20px; padding: 0; list-style: disc; }
+.cv-sheet li { white-space: pre-line; }
+.cv-sheet p { margin: 0; }
+.cv-sheet .just { text-align: justify; }
+.skill-line { margin-bottom: 2px; }
+@media (max-width: 700px) { .cv-sheet { padding: 28px 22px; } .cv-sheet .row { flex-direction: column; gap: 0; } }
+@media print {
+  body { background: #fff; }
+  .no-print { display: none !important; }
+  .cv-sheet { box-shadow: none; margin: 0; width: 100%; padding: 0; min-height: 0; }
+  @page { size: A4; margin: 16mm; }
+}

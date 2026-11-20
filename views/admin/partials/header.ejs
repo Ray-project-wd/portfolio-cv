@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title><%= title %> — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="/admin">Admin<span>.</span></a>
+    <nav>
+      <a href="/admin">Dashboard</a>
+      <a href="/admin/profile">Profil</a>
+      <a href="/admin/education">Pendidikan</a>
+      <a href="/admin/experience">Pengalaman</a>
+      <a href="/admin/organization">Organisasi</a>
+      <a href="/admin/skills">Skills</a>
+      <a href="/admin/projects">Proyek</a>
+      <a href="/admin/certificates">Sertifikat</a>
+      <a href="/admin/password">Ganti password</a>
+    </nav>
+    <div class="side-foot">
+      <a href="/" target="_blank" rel="noopener">Lihat website</a>
+      <form method="post" action="/admin/logout"><button type="submit">Logout (<%= admin ? admin.username : '' %>)</button></form>
+    </div>
+  </aside>
+  <main class="content">
+    <% if (flash) { %><div class="flash flash-<%= flash.type %>" role="status"><%= flash.msg %></div><% } %>

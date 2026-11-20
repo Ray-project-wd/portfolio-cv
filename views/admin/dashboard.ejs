@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+<h1>Dashboard</h1>
+<p class="muted">Kelola seluruh konten portofolio dari sini. Perubahan langsung tampil di website.</p>
+<div class="cards">
+  <a class="card" href="/admin/projects"><strong><%= counts.projects %></strong><span>Proyek</span></a>
+  <a class="card" href="/admin/certificates"><strong><%= counts.certificates %></strong><span>Sertifikat</span></a>
+  <a class="card" href="/admin/skills"><strong><%= counts.skills %></strong><span>Skills</span></a>
+  <a class="card" href="/admin/education"><strong><%= counts.education %></strong><span>Pendidikan</span></a>
+  <a class="card" href="/admin/experience"><strong><%= counts.experience %></strong><span>Pengalaman</span></a>
+  <a class="card" href="/admin/organization"><strong><%= counts.organizations %></strong><span>Organisasi</span></a>
+</div>
+<% if (!profile || !profile.photo || profile.fullName === 'Nama Lengkap') { %>
+<div class="notice">Profil belum lengkap. <a href="/admin/profile">Isi nama dan unggah foto profil</a> agar hero tampil sempurna.</div>
+<% } %>
+<div class="row-actions">
+  <a class="btn primary" href="/admin/profile">Edit profil</a>
+  <a class="btn" href="/cv" target="_blank" rel="noopener">Pratinjau CV</a>
+  <a class="btn" href="/cv/download">Unduh CV (PDF)</a>
+</div>
+<%- include('partials/footer') %>
